@@ -140,4 +140,9 @@ input:hover, input:focus {
 .newClass {
   background: url('./assets/Downpour in an abandoned city.jpg') center/cover no-repeat;
 }
+@media screen and (max-width: 900px) {
+  .image-box {
+    width: 100vw;
+  }
+}
 </style>
