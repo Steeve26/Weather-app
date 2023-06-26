@@ -119,7 +119,7 @@ input:hover, input:focus {
   text-shadow: 2px 2px 5px gray;
 }
 .temp {
-  padding: 1.6rem 2.5rem;
+  padding: 1.6rem 2.1rem;
   background: #e8f2fb70;
   border-radius: 10px;
   margin-top: 2rem;
