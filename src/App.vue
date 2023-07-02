@@ -1,7 +1,7 @@
 <template>
-    <div class="image-blur-box" :class="weather.main != undefined && weather.main.temp < 15 ? 'newClass' : ''">
+    <div class="image-blur-box" :class="weatherClass">
       <div class="inner-image-wrapper">
-        <div class="image-box" :class="weather.main != undefined && weather.main.temp < 15 ? 'newClass' : ''">
+        <div class="image-box" :class="weatherClass">
           <input
             type="text"
             class="query"
@@ -24,8 +24,7 @@
 </template>
 
 <script>
-  import img from "./assets/Downpour in an abandoned city.jpg"
-  const image = "./assets/Downpour in an abandoned city.jpg";
+  import { isEmpty } from 'lodash';
 export default {
   name: "App",
   data() {
@@ -34,16 +33,17 @@ export default {
     const month = today.getMonth() + 1;
     const options = { weekday: 'short' };
     const dayName = today.toLocaleDateString('en-US', options);
+    let temp = '';
+
     return {
       api_key: "7a5b01598c3fbb5cdefe3e775fe1003e",
       url_base: "https://api.openweathermap.org/data/2.5/",
       query: "",
       weather: {},
+      temp,
       dayName,
       year,
       month,
-      img,
-      image,
     };
   },
   methods: {
@@ -56,10 +56,28 @@ export default {
     },
     setResults(results) {
       this.weather = results;
-      console.log("dis da weather bitch:", this.weather.main.temp);
-      console.log("dis da weather bitch:", this.weather);
+      this.temp = this.weather.main.temp
     },
   },
+  computed: {
+    weatherClass() {
+      if(this.weather.main != undefined && !isEmpty(this.weather)) {
+        if (this.temp < 15) {
+          return this.temp < 10 ? 'winter' : 'rain';
+        } 
+        else if (this.temp < 30) 
+          return 'sunny';
+
+        else 
+          return 'desert';
+      }
+      else
+        return 'default'  
+    }
+  },
+  mounted() {
+    this.weatherClass;
+  }
 };
 </script>
 
@@ -70,14 +88,12 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
   width: 100%;
   height: 100%;
 }
 .image-blur-box, .image-box {
   width: 100%;
   height: 100%;
-  background: url('./assets/lake-cabin-winter.jpg') center/cover no-repeat;
 }
 .inner-image-wrapper {
   width: 100%;
@@ -104,6 +120,7 @@ input {
   font-size: 1.1rem;
   transition-duration: .3s;
   text-transform: capitalize;
+  text-shadow: 2px 2px 5px gray;
   color: white;
 }
 input:hover, input:focus {
@@ -119,7 +136,7 @@ input:hover, input:focus {
   text-shadow: 2px 2px 5px gray;
 }
 .temp {
-  padding: 1.6rem 2.1rem;
+  padding: 1.6rem;
   background: #e8f2fb70;
   border-radius: 10px;
   margin-top: 2rem;
@@ -137,8 +154,23 @@ input:hover, input:focus {
 .temp:hover {
   color: #3affa3;
 }
-.newClass {
+.rain {
   background: url('./assets/Downpour in an abandoned city.jpg') center/cover no-repeat;
+}
+.sunny {
+  /* background: url('./assets/a realistic Tokyo cityscape(2).jpg') left/cover no-repeat; */
+  /* background: url('./assets/studio ghibli.jpg') center/cover no-repeat; */
+  background: url('./assets/studio ghibli(1).jpg') center/cover no-repeat;
+}
+.winter {
+  background: url('./assets/lake-cabin-winter.jpg') center/cover no-repeat;
+}
+.desert {
+  /* background: url('./assets/desert.jpg') center/cover no-repeat; */
+  background: url('./assets/tatooine land.jpg') center/cover no-repeat;
+}
+.default {
+  background: url('./assets/epic beech tree.jpg') center/cover no-repeat;
 }
 @media screen and (max-width: 900px) {
   .image-box {
