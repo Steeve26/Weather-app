@@ -106,6 +106,7 @@ export default {
   left: 50%;
   transform: translateX(-50%);
   width: 35rem;
+  transition-duration: .3s;
 }
 input {
   width: 85%;
@@ -125,6 +126,9 @@ input {
 }
 input:hover, input:focus {
   box-shadow: #32325d40 0px 13px 27px -5px, #0000004d 0px 8px 16px -8px;
+}
+::placeholder {
+  color: #eee;
 }
 .weather-details {
   width: fit-content;
